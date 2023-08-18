@@ -28,6 +28,7 @@ import (
 	"k8s.io/apimachinery/pkg/api/resource"
 
 	"github.com/apache/yunikorn-core/pkg/common/configs"
+	"github.com/apache/yunikorn-k8shim/pkg/appmgmt/interfaces"
 	"github.com/apache/yunikorn-k8shim/pkg/common/constants"
 	tests "github.com/apache/yunikorn-k8shim/test/e2e"
 	"github.com/apache/yunikorn-k8shim/test/e2e/framework/helpers/common"
@@ -247,6 +248,95 @@ var _ = ginkgo.Describe("PriorityScheduling", func() {
 				constants.LabelApplicationID: "app-high-" + common.RandSeq(5)},
 			Namespace: ns,
 			Resources: rr,
+		}
+		validatePodSchedulingOrder(ns, sleepPodConf, lowPodConf, normalPodConf, highPodConf)
+	})
+
+	ginkgo.It("Verify_Gang_Scheduling_With_Priority", func() {
+		By("Setting custom YuniKorn configuration")
+		annotation = "ann-" + common.RandSeq(10)
+		yunikorn.UpdateCustomConfigMapWrapper(oldConfigMap, "fifo", annotation, func(sc *configs.SchedulerConfig) error {
+			// remove placement rules so we can control queue
+			sc.Partitions[0].PlacementRules = nil
+
+			if err = common.AddQueue(sc, "default", "root", configs.QueueConfig{
+				Name:      "default",
+				Parent:    false,
+				Resources: configs.Resources{Max: map[string]string{siCommon.CPU: "100m", siCommon.Memory: "100M"}},
+			}); err != nil {
+				return err
+			}
+
+			return nil
+		})
+		sleepPodConf = k8s.TestPodConfig{
+			Name: "test-sleep-" + common.RandSeq(5),
+			Labels: map[string]string{
+				constants.LabelQueueName:     "root.default",
+				constants.LabelApplicationID: "app-sleep-" + common.RandSeq(5)},
+			Namespace: ns,
+			Resources: rr,
+		}
+
+		taskGroupMinResource := map[string]resource.Quantity{}
+		for k, v := range rr.Requests {
+			taskGroupMinResource[k.String()] = v
+		}
+		lowPodConf = k8s.TestPodConfig{
+			Name: "test-low-priority-" + common.RandSeq(5),
+			Labels: map[string]string{
+				constants.LabelQueueName:     "root.default",
+				constants.LabelApplicationID: "app-low-" + common.RandSeq(5)},
+			Namespace: ns,
+			Annotations: &k8s.PodAnnotation{
+				TaskGroups: []interfaces.TaskGroup{
+					{
+						Name:        "group-low",
+						MinMember:   int32(1),
+						MinResource: taskGroupMinResource,
+					},
+				},
+			},
+			Resources:         rr,
+			PriorityClassName: lowPriorityClass.Name,
+		}
+
+		normalPodConf = k8s.TestPodConfig{
+			Name: "test-normal-priority-" + common.RandSeq(5),
+			Labels: map[string]string{
+				constants.LabelQueueName:     "root.default",
+				constants.LabelApplicationID: "app-normal-" + common.RandSeq(5)},
+			Namespace: ns,
+			Annotations: &k8s.PodAnnotation{
+				TaskGroups: []interfaces.TaskGroup{
+					{
+						Name:        "group-normal",
+						MinMember:   int32(1),
+						MinResource: taskGroupMinResource,
+					},
+				},
+			},
+			Resources:         rr,
+			PriorityClassName: normalPriorityClass.Name,
+		}
+
+		highPodConf = k8s.TestPodConfig{
+			Name: "test-high-priority-" + common.RandSeq(5),
+			Labels: map[string]string{
+				constants.LabelQueueName:     "root.default",
+				constants.LabelApplicationID: "app-high-" + common.RandSeq(5)},
+			Namespace: ns,
+			Annotations: &k8s.PodAnnotation{
+				TaskGroups: []interfaces.TaskGroup{
+					{
+						Name:        "group-high-normal",
+						MinMember:   int32(1),
+						MinResource: taskGroupMinResource,
+					},
+				},
+			},
+			Resources:         rr,
+			PriorityClassName: highPriorityClass.Name,
 		}
 		validatePodSchedulingOrder(ns, sleepPodConf, lowPodConf, normalPodConf, highPodConf)
 	})
