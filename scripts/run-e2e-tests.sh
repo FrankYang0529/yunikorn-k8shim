@@ -159,7 +159,7 @@ function copy_go_cover_dir() {
   mkdir -p go-cover-dir-merged
   GO_COVER_DIR_FOLDERS=()
   for i in $("${KIND}" get nodes --name "${CLUSTER_NAME}"); do
-    if docker exec -it "$i" test -d /go-cover-dir
+    if docker exec -i "$i" test -d /go-cover-dir
     then
       docker cp "$i":/go-cover-dir "$i"
       GO_COVER_DIR_FOLDERS+=("$i")

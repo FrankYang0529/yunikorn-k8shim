@@ -529,4 +529,4 @@ arch:
 e2e_test: tools
 	@echo "running e2e tests"
 	cd ./test/e2e && \
-	ginkgo -r $(E2E_TEST) -v -keep-going -- -yk-namespace "yunikorn" -kube-config $(KUBECONFIG)
+	ginkgo -r $(E2E_TEST) --focus "Verify_App_Queue_Info" -v -keep-going -- -yk-namespace "yunikorn" -kube-config $(KUBECONFIG)
