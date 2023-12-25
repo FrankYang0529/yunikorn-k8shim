@@ -134,6 +134,7 @@ func RestoreConfigMapWrapper(oldConfigMap *v1.ConfigMap, annotation string) {
 	ts, tsErr := common.SetQueueTimestamp(oldSC, "default", "root")
 	Ω(tsErr).NotTo(HaveOccurred())
 	c.Data = oldConfigMap.Data
+	c.BinaryData = oldConfigMap.BinaryData
 	c.Data[configmanager.DefaultPolicyGroup], err = common.ToYAML(oldSC)
 	Ω(err).NotTo(HaveOccurred())
 
