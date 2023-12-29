@@ -85,6 +85,9 @@ var _ = Describe("", func() {
 	// 5. Check placeholders deleted
 	// 6. Real pods running and app running
 	It("Verify_Annotation_TaskGroup_Def", func() {
+		config, err := restClient.GetConfig()
+		Ω(err).NotTo(HaveOccurred())
+		fmt.Printf("gang scheduling config: %+v\n", config.Partitions)
 		// Define gang member template with 5 members, 1 real pod (not part of tg)
 		annotations := k8s.PodAnnotation{
 			TaskGroups: []cache.TaskGroup{
@@ -577,6 +580,10 @@ var _ = Describe("", func() {
 			tests.LogYunikornContainer(testDescription.FailureMessage())
 		}
 
+		queue, err := restClient.GetQueue(configmanager.DefaultPartition, "root")
+		Ω(err).NotTo(HaveOccurred())
+		fmt.Printf("gang scheduling queue: %+v\n", queue)
+
 		By(fmt.Sprintf("Cleanup jobs: %v", jobNames))
 		for _, jobName := range jobNames {
 			err := kClient.DeleteJob(jobName, ns)
@@ -584,7 +591,7 @@ var _ = Describe("", func() {
 		}
 
 		By("Tear down namespace: " + ns)
-		err := kClient.TearDownNamespace(ns)
+		err = kClient.TearDownNamespace(ns)
 
 		Ω(err).NotTo(HaveOccurred())
 	})

@@ -39,6 +39,8 @@ github.com/Azure/go-ansiterm v0.0.0-20210617225240-d185dfc1b5a1/go.mod h1:xomTg6
 github.com/BurntSushi/toml v0.3.1 h1:WXkYYl6Yr3qBf1K79EBnL4mak0OimBfB0XUf9Vl28OQ=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
+github.com/FrankYang0529/yunikorn-core v0.0.0-20231228140232-9ccb3a4dc307 h1:HKKwJ+6NQM0evXfeTw9DdEKVXe0Zzo+5XnLqBU+gGRo=
+github.com/FrankYang0529/yunikorn-core v0.0.0-20231228140232-9ccb3a4dc307/go.mod h1:JG66N3TskSNVAMoAUbAVagS14ZrOgcjGpRXbcpAMMvI=
 github.com/HdrHistogram/hdrhistogram-go v1.0.1 h1:GX8GAYDuhlFQnI2fRDHQhTlkHMz8bEn0jTI6LJU0mpw=
 github.com/NYTimes/gziphandler v1.1.1 h1:ZUDjpQae29j0ryrS0u/B8HZfJBtBQHjqw2rQ2cqUQ3I=
 github.com/NYTimes/gziphandler v1.1.1/go.mod h1:n/CVRwUEOgIxrgPvAQhUUr9oeUtvrhMomdKFjzJNB0c=
@@ -49,8 +51,6 @@ github.com/alecthomas/units v0.0.0-20190717042225-c3de453c63f4/go.mod h1:ybxpYRF
 github.com/alecthomas/units v0.0.0-20190924025748-f65c72e2690d/go.mod h1:rBZYJk541a8SKzHPHnH3zbiI+7dagKZ0cgpgrD7Fyho=
 github.com/antlr/antlr4/runtime/Go/antlr v1.4.10 h1:yL7+Jz0jTC6yykIK/Wh74gnTJnrGr5AyrNMXuA0gves=
 github.com/antlr/antlr4/runtime/Go/antlr v1.4.10/go.mod h1:F7bn7fEU90QkQ3tnmaTx3LTKLEDqnwWODIYppRQ5hnY=
-github.com/apache/yunikorn-core v0.0.0-20231203141034-3ae625bcfc07 h1:DNhQrQJYmPpujUBzLtSxFyV4Y1L69hVXuNiE0+EitYA=
-github.com/apache/yunikorn-core v0.0.0-20231203141034-3ae625bcfc07/go.mod h1:JG66N3TskSNVAMoAUbAVagS14ZrOgcjGpRXbcpAMMvI=
 github.com/apache/yunikorn-scheduler-interface v0.0.0-20231201001639-c81397b31653 h1:pUbVmmR+LWuy0L8dGCZNue9UNpWKsY7yFYcCtPtWAic=
 github.com/apache/yunikorn-scheduler-interface v0.0.0-20231201001639-c81397b31653/go.mod h1:zDWV5y9Zh9DM1C65RCVXT1nhNNO8kykVW7bzPFamNYw=
 github.com/armon/go-socks5 v0.0.0-20160902184237-e75332964ef5 h1:0CwZNZbxp69SHPdPJAN/hZIm0C4OItdklCFmMRWYpio=

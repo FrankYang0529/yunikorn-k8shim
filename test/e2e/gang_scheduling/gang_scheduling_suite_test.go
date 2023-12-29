@@ -57,6 +57,9 @@ var annotation = "ann-" + common.RandSeq(10)
 var kClient = k8s.KubeCtl{} //nolint
 
 var _ = BeforeSuite(func() {
+	kClient = k8s.KubeCtl{}
+	Ω(kClient.SetClient()).To(BeNil())
+	yunikorn.RestartYunikorn(&kClient)
 	annotation = "ann-" + common.RandSeq(10)
 	yunikorn.EnsureYuniKornConfigsPresent()
 	yunikorn.UpdateConfigMapWrapper(oldConfigMap, "fifo", annotation)

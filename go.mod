@@ -197,3 +197,5 @@ replace (
 	k8s.io/sample-apiserver => k8s.io/sample-apiserver v0.27.7
 	k8s.io/utils => k8s.io/utils v0.0.0-20230209194617-a36077c30491
 )
+
+replace github.com/apache/yunikorn-core => github.com/FrankYang0529/yunikorn-core v0.0.0-20231228140232-9ccb3a4dc307
